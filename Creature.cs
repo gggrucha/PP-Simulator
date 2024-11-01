@@ -73,5 +73,28 @@ internal class Creature
         get { return $"{Name} [{Level}]"; }
     }
 
+    public void Go(Direction direction)
+    {
+        string d="";
+        if (direction.ToString() == "Down") { d = "down"; }
+        else if(direction.ToString() == "Up") { d = "up"; }
+        else if (direction.ToString() == "Left") { d = "left"; }
+        else if (direction.ToString() == "Right") { d = "right"; }
+        Console.WriteLine($"{Name} goes {d}");
+    }
+
+    public void Go(Direction[] directions)
+    {
+        foreach (var dir in directions)
+        {
+            Go(dir);
+        }
+    }
+
+    public void Go(string directions)
+    {
+        var parsedDirections = DirectionParser.Parse(directions);
+        Go(parsedDirections);
+    }
 
 }
