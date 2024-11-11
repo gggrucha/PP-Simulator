@@ -8,22 +8,9 @@ public abstract class Creature
     { 
         get { return name; } 
         init 
-        { 
-            name = value.Trim();
-            
-            if (name.Length < 3)
-            {
-                string hash = new string('#', 3-name.Length);
-                name = name + hash;
-            }
-
-            char c = name[0];
-            if (char.IsLower(c)==true)
-            {
-                char[] znaki = name.ToCharArray();
-                znaki[0] = char.ToUpper(znaki[0]); //changing 0-th element to UpperCase
-                name = new string(znaki);
-            }
+        {
+            name = Validator.Shortener(value, 3, 25, '#');
+            name = char.ToUpper(name[0]) + name.Substring(1).ToLower();
         }
     }  //automatic property
     public int Level 
@@ -69,10 +56,10 @@ public abstract class Creature
         }
         return level;
     }
-    public string Info
-    {
-        get { return $"{Name} [{Level}]"; }
-    }
+    //public string Info
+    //{
+    //    get { return $"{Name} [{Level}]"; }
+    //}
 
     public void Go(Direction direction)
     {
@@ -98,4 +85,9 @@ public abstract class Creature
         Go(parsedDirections);
     }
 
+    public abstract string Info { get; }
+    public override string ToString()
+    {
+        return $"{GetType().Name.ToUpper()}: {Info}";
+    }
 }
