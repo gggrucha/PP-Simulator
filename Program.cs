@@ -1,4 +1,6 @@
-﻿namespace Simulator;
+﻿using Simulator.Maps;
+
+namespace Simulator;
 
 internal class Program
 {
@@ -124,10 +126,62 @@ internal class Program
             Console.WriteLine($"Nieoczekiwany błąd: {ex.Message}");
         }
     }
+
+    static void Lab5b()
+    {
+        try
+        {
+            Console.WriteLine("Testowanie klasy SmallSquareMap:");
+
+            // Przypadek 1: Utworzenie mapy o poprawnym rozmiarze
+            SmallSquareMap map = new SmallSquareMap(10);
+            Console.WriteLine($"Mapa utworzona z rozmiarem: {map.Size}");
+
+            // Przypadek 2: Sprawdzenie istnienia punktu w granicach mapy
+            Point insidePoint = new Point(5, 5);
+            Point outsidePoint = new Point(10, 10);
+            Console.WriteLine($"Czy punkt {insidePoint} istnieje w mapie? {map.Exist(insidePoint)}");  // Oczekiwany wynik: True
+            Console.WriteLine($"Czy punkt {outsidePoint} istnieje w mapie? {map.Exist(outsidePoint)}"); // Oczekiwany wynik: False
+
+            // Przypadek 3: Ruch punktu w granicach mapy
+            Point start = new Point(5, 5);
+            Point next = map.Next(start, Direction.Right);
+            Console.WriteLine($"Następny punkt w prawo od {start}: {next}"); // Oczekiwany wynik: (6, 5)
+
+            // Przypadek 4: Ruch punktu poza granice mapy
+            Point edgePoint = new Point(9, 5);
+            next = map.Next(edgePoint, Direction.Right);
+            Console.WriteLine($"Następny punkt w prawo od {edgePoint} (poza granicami): {next}"); // Oczekiwany wynik: (9, 5)
+
+            // Przypadek 5: Ruch po skosie w granicach mapy
+            Point diagonalMove = map.NextDiagonal(start, Direction.Up);
+            Console.WriteLine($"Następny punkt po skosie w górę od {start}: {diagonalMove}"); // Oczekiwany wynik: (6, 6)
+
+            // Przypadek 6: Próba ruchu po skosie poza granice mapy
+            Point cornerPoint = new Point(9, 9);
+            diagonalMove = map.NextDiagonal(cornerPoint, Direction.Up);
+            Console.WriteLine($"Następny punkt po skosie w górę od {cornerPoint} (poza granicami): {diagonalMove}"); // Oczekiwany wynik: (9, 9)
+
+            // Przypadek 7: Próba utworzenia mapy z rozmiarem poza zakresem
+            try
+            {
+                SmallSquareMap invalidMap = new SmallSquareMap(25); // Oczekiwany wyjątek
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Nie można utworzyć mapy o rozmiarze spoza zakresu (5-20).");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Nieoczekiwany błąd: {ex.Message}");
+        }
+    }
     static void Main(string[] args)
     {
         //Lab4a();
         //Lab4b();
         Lab5a();
+        Lab5b();
     }
 }
