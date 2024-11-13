@@ -44,9 +44,9 @@ public abstract class Creature
         
     }
 
-    public virtual void SayHi()
+    public virtual string Greeting()
     {
-        Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
+        return $"Hi, I'm {Name}, my level is {Level}.";
     }
     public int Upgrade()
     {
@@ -61,22 +61,17 @@ public abstract class Creature
     //    get { return $"{Name} [{Level}]"; }
     //}
 
-    public void Go(Direction direction)
-    {
-        string d="";
-        if (direction.ToString() == "Down") { d = "down"; }
-        else if(direction.ToString() == "Up") { d = "up"; }
-        else if (direction.ToString() == "Left") { d = "left"; }
-        else if (direction.ToString() == "Right") { d = "right"; }
-        Console.WriteLine($"{Name} goes {d}");
-    }
+    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
 
-    public void Go(Direction[] directions)
+    public string[] Go(Direction[] directions)
     {
-        foreach (var dir in directions)
+        var result = new string[directions.Length];
+        for (int i=0; i<directions.Length; i++)
         {
-            Go(dir);
+            
+            result[i] = Go(directions[i]);
         }
+        return result;
     }
 
     public void Go(string directions)

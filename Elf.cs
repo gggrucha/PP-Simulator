@@ -17,7 +17,7 @@ public class Elf : Creature
     public void Sing() 
     {
         SingCounter++;
-        Console.WriteLine($"{Name} is singing.");
+        //Console.WriteLine($"{Name} is singing.");
         if (SingCounter % 3 == 0)
         {
             if (agility < 10)
@@ -40,9 +40,7 @@ public class Elf : Creature
         Agility = agility;
     }
 
-    public override void SayHi() => Console.WriteLine(
-    $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}."
-    );
+    public override string Greeting() {return  $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}."; }
 
     public override string Info => $"{Name} [{Level}][{Agility}]";
 }
