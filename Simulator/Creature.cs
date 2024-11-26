@@ -9,8 +9,9 @@ public abstract class Creature
 
     public void InitMapAndPosition(Map map, Point position) //ustawianie stwora na mapie
     {
-        
-    } 
+        Map = map;
+        Position = position;
+    }
     private string name = "Unknown";
     private int level = 1;
 

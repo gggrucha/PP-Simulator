@@ -13,9 +13,12 @@ public abstract class Map
     //at() point albo x,y
 
 {
+
     private readonly Rectangle _map;
     public int SizeX { get; }
     public int SizeY { get; }
+
+    protected abstract List<Creature>?[,] Fields { get; }
 
     protected Map(int sizeX, int sizeY)
     {
@@ -24,6 +27,15 @@ public abstract class Map
         SizeX = sizeX;
         SizeY = sizeY;
         _map = new Rectangle(0,0, SizeX, SizeY);
+    }
+
+    public List<Creature> At(Point point)
+    {
+        return Fields[point.X, point.Y] ?? new List<Creature>();
+    }
+    public List<Creature> At(int x, int y)
+    {
+        return At(new Point(x, y));
     }
     /// <summary>
     /// Check if give point belongs to the map.

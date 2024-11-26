@@ -33,31 +33,17 @@ public class Simulation
     /// </summary>
     public bool Finished { get; private set; } = false;
 
-    private int _currentTurnIndex = 0;
+    public int _currentIndex = 0;
 
     /// <summary>
     /// Creature which will be moving current turn.
     /// </summary>
-    private Creature CurrentCreature
-    {
-        get
-        {
-            return Creatures[_currentTurnIndex % Creatures.Count];
-        }
-    }
+    public Creature CurrentCreature => Creatures[_currentIndex % Creatures.Count];
 
     /// <summary>
     /// Lowercase name of direction which will be used in current turn.
     /// </summary>
-    private string CurrentMoveName
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(Moves))
-                throw new InvalidOperationException("No moves left.");
-            return Moves[0].ToString().ToLower();
-        }
-    }
+    public string CurrentMoveName => Moves[_currentIndex].ToString().ToLower();
 
     /// <summary>
     /// Simulation constructor.
@@ -115,7 +101,7 @@ public class Simulation
             CurrentCreature.Go(direction);
         }
 
-        _currentTurnIndex++;
+        _currentIndex++;
 
         if (string.IsNullOrEmpty(Moves))
         {
