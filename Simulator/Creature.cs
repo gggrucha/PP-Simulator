@@ -1,6 +1,16 @@
-﻿namespace Simulator;
+﻿using Simulator.Maps;
+namespace Simulator;
 public abstract class Creature
 {
+    public Map? Map { get; private set; } //? czyli może być null bo mapa nie musi być od razu przypisana do stwora 
+    public Point Position { get; private set; }//pamieta w ktorym jest miejscu //private czyli zeby nikt nie mogl zmienic
+
+    
+
+    public void InitMapAndPosition(Map map, Point position) //ustawianie stwora na mapie
+    {
+        
+    } 
     private string name = "Unknown";
     private int level = 1;
 
@@ -61,10 +71,14 @@ public abstract class Creature
     //    get { return $"{Name} [{Level}]"; }
     //}
 
-    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
+    public string Go(Direction direction) => $"{direction.ToString().ToLower()}"; //out
 
     public string[] Go(Direction[] directions)
     {
+        //Map.Next(); //next zapewnia ze istnieje
+        //Map.Next() == Position //nie robimy ruchu
+        //Mao.Move() //tu będzie ruch
+        //add i remove abstrakcyjne, move (remove ze starego i add do nowego, na poziomie mapy)
         var result = new string[directions.Length];
         for (int i=0; i<directions.Length; i++)
         {
@@ -74,10 +88,10 @@ public abstract class Creature
         return result;
     }
 
-    public void Go(string directions)
+    public void Go(string directions) //out
     {
         var parsedDirections = DirectionParser.Parse(directions);
-        Go(parsedDirections);
+        Go(parsedDirections.ToArray());
     }
 
     public abstract string Info { get; }

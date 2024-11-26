@@ -36,17 +36,17 @@ public class SmallTorusMap : Map
         };
     }
 
-    public SmallTorusMap(int size) 
+    public SmallTorusMap(int size) : base(size,size)
     {
-        if (size>=5 && size<=20) 
-        { 
-            Size = size;
-            boundaries = new Rectangle(0,0,Size - 1, Size - 1); //rectangle
-        }
-        else 
-        {
-            throw new ArgumentOutOfRangeException();
-        }
+        //if (size>=5 && size<=20) 
+        //{ 
+        //    Size = size;
+        //    boundaries = new Rectangle(0,0,Size - 1, Size - 1); //rectangle
+        //}
+        //else 
+        //{
+        //    throw new ArgumentOutOfRangeException();
+        //}
     }
 
 }
