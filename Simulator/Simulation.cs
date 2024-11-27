@@ -38,7 +38,7 @@ public class Simulation
     /// <summary>
     /// Creature which will be moving current turn.
     /// </summary>
-    public Creature CurrentCreature => Creatures[_currentIndex % Creatures.Count];
+    public Creature CurrentMappable => Creatures[_currentIndex % Creatures.Count];
 
     /// <summary>
     /// Lowercase name of direction which will be used in current turn.
@@ -52,25 +52,25 @@ public class Simulation
     /// if number of creatures differs from 
     /// number of starting positions.
     /// </summary>
-    public Simulation(Map map, List<Creature> creatures, List<Point> positions, string moves)
+    public Simulation(Map map, List<IMappable> mappables, List<Point> positions, string moves)
     {
-        if (creatures == null || creatures.Count == 0)
+        if (mappables == null || mappables.Count == 0)
         {
             throw new ArgumentException("List of creatures cannot be empty.");
         }
-        if (creatures.Count != positions.Count)
+        if (mappables.Count != positions.Count)
         {
             throw new ArgumentException("Number of creatures must match the number of starting positions.");
         }
 
         Map = map ?? throw new ArgumentNullException(nameof(map));
-        Creatures = creatures;
+        IMappable = mappables;
         Positions = positions;
         Moves = moves ?? throw new ArgumentNullException(nameof(moves));
 
-        for (int i = 0; i < Creatures.Count; i++)
+        for (int i = 0; i < IMappable.Count; i++)
         {
-            Creatures[i].InitMapAndPosition(Map, Positions[i]);
+            IMappable[i].InitMapAndPosition(Map, Positions[i]);
         }
     }
 
@@ -98,7 +98,7 @@ public class Simulation
         if (directions.Count > 0) 
         {
             Direction direction = directions[0];
-            CurrentCreature.Go(direction);
+            CurrentMappable.Go(direction);
         }
 
         _currentIndex++;

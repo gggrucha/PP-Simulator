@@ -1,6 +1,6 @@
 ﻿using Simulator.Maps;
 namespace Simulator;
-public abstract class Creature
+public abstract class Creature : IMappable
 {
     public Map? Map { get; private set; } //? czyli może być null bo mapa nie musi być od razu przypisana do stwora 
     public Point Position { get; private set; }//pamieta w ktorym jest miejscu //private czyli zeby nikt nie mogl zmienic
@@ -72,7 +72,7 @@ public abstract class Creature
     //    get { return $"{Name} [{Level}]"; }
     //}
 
-    public string Go(Direction direction) => $"{direction.ToString().ToLower()}"; //out
+    public void Go(Direction direction) { } //=> $"{direction.ToString().ToLower()}"; //out
 
     public string[] Go(Direction[] directions)
     {

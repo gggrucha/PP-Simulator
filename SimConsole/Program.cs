@@ -31,7 +31,7 @@ internal class Program
             mapVisualizer.Draw();
             Console.WriteLine("\nPress any key to make a move...");
             Console.ReadKey(true);
-            Console.WriteLine($"{simulation.CurrentCreature.Info} {simulation.CurrentCreature.Position} goes {simulation.CurrentMoveName}");
+            //Console.WriteLine($"{simulation.CurrentMappable.Info} {simulation.CurrentMappable.Position} goes {simulation.CurrentMoveName}");
             simulation.Turn();
         }
 
@@ -66,7 +66,7 @@ internal class Program
             mapVisualizer.Draw();
             Console.WriteLine("\nPress any key to make a move...");
             Console.ReadKey(true);
-            Console.WriteLine($"{simulation.CurrentCreature.Info} {simulation.CurrentCreature.Position} goes {simulation.CurrentMoveName}");
+            Console.WriteLine($"{simulation.CurrentMappable.Info} {simulation.CurrentMappable.Position} goes {simulation.CurrentMoveName}");
             simulation.Turn();
         }
 

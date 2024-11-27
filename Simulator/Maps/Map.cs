@@ -7,18 +7,18 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 
-    //add(Creature,Point)
-    //remove(Creature,Point)
+    //add(IMappable,Point)
+    //remove(IMappable,Point)
     //move()
     //at() point albo x,y
-
+    public abstract void Add(IMappable mappable, Point position);
 {
 
     private readonly Rectangle _map;
     public int SizeX { get; }
     public int SizeY { get; }
 
-    protected abstract List<Creature>?[,] Fields { get; }
+    protected abstract List<IMappable>?[,] Fields { get; }
 
     protected Map(int sizeX, int sizeY)
     {
@@ -29,11 +29,11 @@ public abstract class Map
         _map = new Rectangle(0,0, SizeX, SizeY);
     }
 
-    public List<Creature> At(Point point)
+    public List<IMappable> At(Point point)
     {
-        return Fields[point.X, point.Y] ?? new List<Creature>();
+        return Fields[point.X, point.Y] ?? new List<IMappable>();
     }
-    public List<Creature> At(int x, int y)
+    public List<IMappable> At(int x, int y)
     {
         return At(new Point(x, y));
     }
