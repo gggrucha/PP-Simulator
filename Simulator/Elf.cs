@@ -3,6 +3,7 @@
 namespace Simulator;
 public class Elf : Creature
 {
+    public override char Symbol => 'E';
     private int agility=1;
     private int SingCounter = 0;
     public int Agility { 
@@ -40,7 +41,7 @@ public class Elf : Creature
         Agility = agility;
     }
 
-    public override string Greeting() {return  $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}."; }
+    //public override string Greeting() {return  $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}."; }
 
     public override string Info => $"{Name} [{Level}][{Agility}]";
 }

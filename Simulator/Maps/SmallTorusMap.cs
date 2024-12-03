@@ -1,7 +1,11 @@
-﻿namespace Simulator.Maps;
-public class SmallTorusMap : Map
+﻿
+namespace Simulator.Maps;
+public class SmallTorusMap : SmallMap
 {
     public int Size { get; }
+
+    protected override List<IMappable>?[,] Fields => throw new NotImplementedException(); //testowo
+
     private Rectangle boundaries;
     public override bool Exist(Point p)
     {
@@ -36,17 +40,21 @@ public class SmallTorusMap : Map
         };
     }
 
-    public SmallTorusMap(int size) : base(size,size)
+    public SmallTorusMap(int sizeX, int sizeY) : base(sizeX, sizeY)
     {
-        //if (size>=5 && size<=20) 
-        //{ 
-        //    Size = size;
-        //    boundaries = new Rectangle(0,0,Size - 1, Size - 1); //rectangle
-        //}
-        //else 
-        //{
-        //    throw new ArgumentOutOfRangeException();
-        //}
     }
+
+    //public SmallTorusMap(int size) : base(size,size)
+    //{
+    //if (size>=5 && size<=20) 
+    //{ 
+    //    Size = size;
+    //    boundaries = new Rectangle(0,0,Size - 1, Size - 1); //rectangle
+    //}
+    //else 
+    //{
+    //    throw new ArgumentOutOfRangeException();
+    //}
+    //}
 
 }

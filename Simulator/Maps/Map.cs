@@ -11,13 +11,14 @@ public abstract class Map
     //remove(IMappable,Point)
     //move()
     //at() point albo x,y
-    public abstract void Add(IMappable mappable, Point position);
+    
 {
-
-    private readonly Rectangle _map;
+    //public abstract void Add(IMappable mappable, Point position);
+    private readonly Rectangle _map; //ograniczenia mapy
     public int SizeX { get; }
     public int SizeY { get; }
 
+    private Rectangle boundaries;
     protected abstract List<IMappable>?[,] Fields { get; }
 
     protected Map(int sizeX, int sizeY)
@@ -26,7 +27,7 @@ public abstract class Map
             
         SizeX = sizeX;
         SizeY = sizeY;
-        _map = new Rectangle(0,0, SizeX, SizeY);
+        _map = new Rectangle(0,0, SizeX, SizeY); 
     }
 
     public List<IMappable> At(Point point)
@@ -60,4 +61,26 @@ public abstract class Map
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
     public abstract Point NextDiagonal(Point p, Direction d);
+
+    public void Add(IMappable mappable, Point point)
+    {
+        if (!Exist(point))
+            throw new ArgumentException($"Punkt {point} jest poza granicami mapy.");
+        Fields[point.X, point.Y] ??= new List<IMappable>();
+        Fields[point.X, point.Y]?.Add(mappable);
+    }
+    public void Remove(IMappable mappable, Point point)
+    {
+        if (Fields[point.X, point.Y] != null)
+        {
+            Fields[point.X, point.Y]?.Remove(mappable);
+            if (Fields[point.X, point.Y]?.Count == 0)
+                Fields[point.X, point.Y] = null;
+        }
+    }
+    public void Move(IMappable mappable, Point from, Point to)
+    {
+        Remove(mappable, from);
+        Add(mappable, to);
+    }
 }

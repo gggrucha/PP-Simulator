@@ -72,7 +72,15 @@ public abstract class Creature : IMappable
     //    get { return $"{Name} [{Level}]"; }
     //}
 
-    public void Go(Direction direction) { } //=> $"{direction.ToString().ToLower()}"; //out
+    public void Go(Direction direction) 
+    {
+        if (Map == null)
+            return; // Jeśli stwór nie ma mapy, nic nie robimy.
+
+        Point nextPosition = Map.Next(Position, direction);
+        Map.Move((IMappable)this, Position, nextPosition); // Przemieszczanie stworów
+        Position = nextPosition;
+    } //=> $"{direction.ToString().ToLower()}"; //out
 
     public string[] Go(Direction[] directions)
     {
@@ -89,15 +97,11 @@ public abstract class Creature : IMappable
         return result;
     }
 
-    public void Go(string directions) //out
-    {
-        var parsedDirections = DirectionParser.Parse(directions);
-        Go(parsedDirections.ToArray());
-    }
-
     public abstract string Info { get; }
     public override string ToString()
     {
         return $"{GetType().Name.ToUpper()}: {Info}";
     }
+
+    public abstract char Symbol { get; }
 }
