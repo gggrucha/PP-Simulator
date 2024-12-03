@@ -12,7 +12,7 @@ public class Simulation
     /// <summary>
     /// Creatures moving on the map.
     /// </summary>
-    public List<Creature> Creatures { get; }
+    public List<IMappable> IMappables { get; }
 
     /// <summary>
     /// Starting positions of creatures.
@@ -26,24 +26,26 @@ public class Simulation
     /// When all creatures make moves, 
     /// next move is again for first creature and so on.
     /// </summary>
-    public string Moves { get; private set; }
+    public string Moves { get; set; }
 
     /// <summary>
     /// Has all moves been done?
     /// </summary>
     public bool Finished { get; private set; } = false;
 
+    private List<Direction> FilteredMoves { get; }
     public int _currentIndex = 0;
 
+    public IMappable CurrentMappable => IMappables[_currentIndex % IMappables.Count];
     /// <summary>
     /// Creature which will be moving current turn.
     /// </summary>
-    public Creature CurrentMappable => Creatures[_currentIndex % Creatures.Count];
+    //public Creature CurrentMappable => FilteredMoves.Count > _currentMoveIndex ? FilteredMoves[_currentMoveIndex].ToString().ToLower() : string.Empty;
 
     /// <summary>
     /// Lowercase name of direction which will be used in current turn.
     /// </summary>
-    public string CurrentMoveName => Moves[_currentIndex].ToString().ToLower();
+    public string CurrentMoveName => FilteredMoves.Count > _currentIndex ? FilteredMoves[_currentIndex].ToString().ToLower() : string.Empty;
 
     /// <summary>
     /// Simulation constructor.
@@ -64,13 +66,21 @@ public class Simulation
         }
 
         Map = map ?? throw new ArgumentNullException(nameof(map));
-        IMappable = mappables;
+        IMappables = mappables;
         Positions = positions;
         Moves = moves ?? throw new ArgumentNullException(nameof(moves));
 
-        for (int i = 0; i < IMappable.Count; i++)
+        for (int i = 0; i < mappables.Count; i++)
         {
-            IMappable[i].InitMapAndPosition(Map, Positions[i]);
+            var mappable = mappables[i];
+            var position = positions[i];
+
+            if (!map.Exist(position))
+            {
+                throw new ArgumentException($"Position {position} is outside the bounds of the map.");
+            }
+            mappable.InitMapAndPosition(map, position);
+            map.Add(mappable, position);
         }
     }
 
@@ -91,19 +101,24 @@ public class Simulation
             return;
         }
 
-        char currentMoveChar = Moves[0];
-        Moves = Moves.Substring(1); 
+        //char currentMoveChar = Moves[0];
+        //Moves = Moves.Substring(1); 
 
-        var directions = DirectionParser.Parse(currentMoveChar.ToString());
-        if (directions.Count > 0) 
-        {
-            Direction direction = directions[0];
-            CurrentMappable.Go(direction);
-        }
-
+        //var directions = DirectionParser.Parse(currentMoveChar.ToString());
+        //if (directions.Count > 0) 
+        //{
+        //    Direction direction = directions[0];
+        //    CurrentMappable.Go(direction);
+        //}
+        Direction direction = FilteredMoves[_currentIndex];
+        CurrentMappable.Go(direction);
         _currentIndex++;
 
-        if (string.IsNullOrEmpty(Moves))
+        //if (string.IsNullOrEmpty(Moves))
+        //{
+        //    Finished = true;
+        //}
+        if (_currentIndex >= FilteredMoves.Count)
         {
             Finished = true;
         }

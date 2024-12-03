@@ -1,9 +1,13 @@
-﻿namespace Simulator.Maps;
+﻿
+namespace Simulator.Maps;
 
 public class SmallSquareMap : SmallMap
 {
     
     public int Size { get; }
+
+    protected override List<IMappable>?[,] Fields => throw new NotImplementedException();
+
     //public int SizeY { get; }
     private Rectangle boundaries;
     //public override bool Exist(Point p)

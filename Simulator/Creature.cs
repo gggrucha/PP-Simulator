@@ -82,20 +82,20 @@ public abstract class Creature : IMappable
         Position = nextPosition;
     } //=> $"{direction.ToString().ToLower()}"; //out
 
-    public string[] Go(Direction[] directions)
-    {
-        //Map.Next(); //next zapewnia ze istnieje
-        //Map.Next() == Position //nie robimy ruchu
-        //Mao.Move() //tu będzie ruch
-        //add i remove abstrakcyjne, move (remove ze starego i add do nowego, na poziomie mapy)
-        var result = new string[directions.Length];
-        for (int i=0; i<directions.Length; i++)
-        {
+    //public string[] Go(Direction[] directions)
+    //{
+    //    //Map.Next(); //next zapewnia ze istnieje
+    //    //Map.Next() == Position //nie robimy ruchu
+    //    //Mao.Move() //tu będzie ruch
+    //    //add i remove abstrakcyjne, move (remove ze starego i add do nowego, na poziomie mapy)
+    //    var result = new string[directions.Length];
+    //    for (int i=0; i<directions.Length; i++)
+    //    {
             
-            result[i] = Go(directions[i]);
-        }
-        return result;
-    }
+    //        result[i] = Go(directions[i]);
+    //    }
+    //    return result;
+    //}
 
     public abstract string Info { get; }
     public override string ToString()
