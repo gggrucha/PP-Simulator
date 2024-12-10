@@ -30,11 +30,11 @@ public abstract class Map
         _map = new Rectangle(0,0, SizeX, SizeY); 
     }
 
-    public List<IMappable> At(Point point)
+    public virtual List<IMappable> At(Point point)
     {
         return Fields[point.X, point.Y] ?? new List<IMappable>();
     }
-    public List<IMappable> At(int x, int y)
+    public virtual List<IMappable> At(int x, int y)
     {
         return At(new Point(x, y));
     }
@@ -62,14 +62,14 @@ public abstract class Map
     /// <returns>Next point.</returns>
     public abstract Point NextDiagonal(Point p, Direction d);
 
-    public void Add(IMappable mappable, Point point)
+    public virtual void Add(IMappable mappable, Point point)
     {
         if (!Exist(point))
             throw new ArgumentException($"Punkt {point} jest poza granicami mapy.");
         Fields[point.X, point.Y] ??= new List<IMappable>();
         Fields[point.X, point.Y]?.Add(mappable);
     }
-    public void Remove(IMappable mappable, Point point)
+    public virtual void Remove(IMappable mappable, Point point)
     {
         if (Fields[point.X, point.Y] != null)
         {
@@ -78,7 +78,7 @@ public abstract class Map
                 Fields[point.X, point.Y] = null;
         }
     }
-    public void Move(IMappable mappable, Point from, Point to)
+    public virtual void Move(IMappable mappable, Point from, Point to)
     {
         Remove(mappable, from);
         Add(mappable, to);

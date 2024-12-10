@@ -70,6 +70,12 @@ public class Simulation
         Positions = positions;
         Moves = moves ?? throw new ArgumentNullException(nameof(moves));
 
+        FilteredMoves = Moves
+            .Select(c => DirectionParser.Parse(c.ToString().ToLower()))
+            .Where(d => d != null && d.Count > 0)
+            .Select(d => d[0])
+            .ToList();
+
         for (int i = 0; i < mappables.Count; i++)
         {
             var mappable = mappables[i];
