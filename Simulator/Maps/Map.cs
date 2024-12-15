@@ -19,22 +19,28 @@ public abstract class Map
     public int SizeY { get; }
 
     private Rectangle boundaries;
-    protected abstract List<IMappable>?[,] Fields { get; }
-
+    //protected abstract List<IMappable>?[,] Fields { get; }
+    private Dictionary<Point, List<IMappable>> mappablesFields = new Dictionary<Point, List<IMappable>>();
     protected Map(int sizeX, int sizeY)
     {
         if (sizeX < 5 || sizeY<5) { throw new ArgumentOutOfRangeException(nameof(sizeX),"Map too small"); }
             
         SizeX = sizeX;
         SizeY = sizeY;
-        _map = new Rectangle(0,0, SizeX, SizeY); 
+        _map = new Rectangle(0,0, SizeX, SizeY);
+        boundaries = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
     }
 
-    public virtual List<IMappable> At(Point point)
+    public List<IMappable> At(Point point)
     {
-        return Fields[point.X, point.Y] ?? new List<IMappable>();
+        if (mappablesFields.ContainsKey(point))
+        {
+            return mappablesFields[point];
+        }
+        return new List<IMappable>();
+        //return Fields[point.X, point.Y] ?? new List<IMappable>();
     }
-    public virtual List<IMappable> At(int x, int y)
+    public List<IMappable> At(int x, int y)
     {
         return At(new Point(x, y));
     }
@@ -65,17 +71,25 @@ public abstract class Map
     public virtual void Add(IMappable mappable, Point point)
     {
         if (!Exist(point))
-            throw new ArgumentException($"Punkt {point} jest poza granicami mapy.");
-        Fields[point.X, point.Y] ??= new List<IMappable>();
-        Fields[point.X, point.Y]?.Add(mappable);
-    }
-    public virtual void Remove(IMappable mappable, Point point)
-    {
-        if (Fields[point.X, point.Y] != null)
         {
-            Fields[point.X, point.Y]?.Remove(mappable);
-            if (Fields[point.X, point.Y]?.Count == 0)
-                Fields[point.X, point.Y] = null;
+            throw new ArgumentException($"Punkt {point} jest poza granicami mapy.");
+        }
+
+        if (!mappablesFields.ContainsKey(point))
+        {
+            mappablesFields[point] = new List<IMappable>();
+        }
+        mappablesFields[point].Add(mappable);
+    }
+    public void Remove(IMappable mappable, Point point)
+    {
+        if (mappablesFields.ContainsKey(point))
+        {
+            mappablesFields[point].Remove(mappable);
+            if (mappablesFields[point].Count == 0)
+            {
+                mappablesFields.Remove(point);
+            }
         }
     }
     public virtual void Move(IMappable mappable, Point from, Point to)

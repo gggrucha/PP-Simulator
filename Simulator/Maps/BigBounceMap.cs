@@ -10,7 +10,7 @@ public class BigBounceMap : BigMap
         //_fields = new Dictionary<Point, List<IMappable>>();
     }
 
-    protected override List<IMappable>?[,] Fields => throw new NotImplementedException();
+    //protected override List<IMappable>?[,] Fields => throw new NotImplementedException();
 
     public override void Move(IMappable mappable, Point from, Point to)
     {
