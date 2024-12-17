@@ -1,11 +1,13 @@
 ﻿using Simulator;
 using Simulator.Maps;
-using Simulator;
 using SimConsole;
 public class SimulationHistory
 {
     private readonly List<SimulationState> _states = new();
-    private readonly Simulation _simulation;
+    private Simulation _simulation;
+    public int SizeX { get; }
+    public int SizeY { get; }
+    public List<SimulationTurnLog> TurnLogs { get; } = [];
     public SimulationHistory(Simulation simulation)
     {
         _simulation = simulation;
